@@ -1,0 +1,10 @@
+{
+  "load_priority": 0,
+  "name": "sscfe.form_catgirl_0.model_name",
+  "layer": "origins:origin",
+  "form": "sscfe:form_catgirl_0",
+  "wide_only": true,
+  "model": "sscfe:geo/form/form_catgirl_0.geo.json",
+  "texture": "sscfe:textures/form/form_catgirl_0/form_catgirl_0.png",
+  "hidden": []
+}
