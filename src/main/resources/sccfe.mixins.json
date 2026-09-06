@@ -7,6 +7,11 @@
   "mixins": [
     "MobGoalSelectorAccessor"
   ],
+  "client": [
+    "client.FormAnimationSystemMixin",
+    "client.FormGeoAnimatableMixin",
+    "client.FormGeoModelMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
