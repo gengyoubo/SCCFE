@@ -27,7 +27,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="shape_shifter_curse"
 mandatory=true
-versionRange="[1.9.3,1.10)"
+versionRange="[1.9.3.2,1.10)"
 ordering="AFTER"
 side="BOTH"
 

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /** Makes nearby vanilla creatures answer a successful form call. */
@@ -52,7 +53,7 @@ public final class FormSoundResponseService {
         RESPONSE_COOLDOWNS.put(player.getUUID(), now + RESPONSE_COOLDOWN_TICKS);
 
         for (Mob mob : level.getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(RESPONSE_RADIUS),
-                nearby -> nearby.getType() == response.entityType && !nearby.isSilent())) {
+                nearby -> response.entityTypes.contains(nearby.getType()) && !nearby.isSilent())) {
             int delay = MIN_RESPONSE_DELAY_TICKS
                     + level.random.nextInt(MAX_RESPONSE_DELAY_TICKS - MIN_RESPONSE_DELAY_TICKS + 1);
             PENDING_RESPONSES.add(new PendingResponse(mob, player, response.sound, now + delay));
@@ -100,34 +101,35 @@ public final class FormSoundResponseService {
 
     private static Response responseFor(String formGroup, boolean sneaking) {
         if ("axolotl_form".equals(formGroup)) {
-            return response(EntityType.AXOLOTL, "entity.axolotl.idle_air");
+            return response("entity.axolotl.idle_air", EntityType.AXOLOTL);
         }
         if ("spider_form".equals(formGroup)) {
-            return response(EntityType.SPIDER, "entity.spider.ambient");
+            return response("entity.spider.ambient", EntityType.SPIDER);
         }
         if ("bat_form".equals(formGroup)) {
-            return response(EntityType.BAT, "entity.bat.ambient");
+            return response("entity.bat.ambient", EntityType.BAT);
         }
         if ("familiar_fox_form".equals(formGroup) || "snow_fox_form".equals(formGroup)) {
-            return response(EntityType.FOX, "entity.fox.ambient");
+            return response("entity.fox.ambient", EntityType.FOX);
         }
         if ("feral_cat_form".equals(formGroup) || "ocelot_form".equals(formGroup)) {
-            return response(EntityType.OCELOT, sneaking ? "entity.cat.hiss" : "entity.cat.ambient");
+            return response(sneaking ? "entity.cat.hiss" : "entity.cat.ambient",
+                    EntityType.CAT, EntityType.OCELOT);
         }
         if ("anubis_wolf_form".equals(formGroup)) {
-            return response(EntityType.WOLF, sneaking ? "entity.wolf.growl" : "entity.wolf.ambient");
+            return response(sneaking ? "entity.wolf.growl" : "entity.wolf.ambient", EntityType.WOLF);
         }
         if ("allay_form".equals(formGroup)) {
-            return response(EntityType.ALLAY, "entity.allay.ambient_without_item");
+            return response("entity.allay.ambient_without_item", EntityType.ALLAY);
         }
         return null;
     }
 
-    private static Response response(EntityType<? extends Mob> entityType, String soundId) {
-        return new Response(entityType, ResourceLocation.fromNamespaceAndPath("minecraft", soundId));
+    private static Response response(String soundId, EntityType<?>... entityTypes) {
+        return new Response(Set.of(entityTypes), ResourceLocation.fromNamespaceAndPath("minecraft", soundId));
     }
 
-    private record Response(EntityType<? extends Mob> entityType, ResourceLocation sound) {
+    private record Response(Set<EntityType<?>> entityTypes, ResourceLocation sound) {
     }
 
     private record PendingResponse(Mob mob, ServerPlayer player, ResourceLocation sound, long dueAt) {
