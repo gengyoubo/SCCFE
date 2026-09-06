@@ -15,26 +15,26 @@ import software.bernie.geckolib.core.animation.AnimationState;
 
 @Mixin(FormGeoModel.class)
 public abstract class FormGeoModelMixin {
-    private static final ResourceLocation SCCFE_SURFACE_SPRINT_ANIMATION =
+    private static final ResourceLocation SSCFE_SURFACE_SPRINT_ANIMATION =
             ResourceLocation.fromNamespaceAndPath(ShapeShifterCurseForge.RESOURCE_NAMESPACE,
                     "player_animation/new/form_axolotl_3_new.animation.json");
-    private static final String SCCFE_SURFACE_SPRINT_ID = "The Surface Sprint Begins";
+    private static final String SSCFE_SURFACE_SPRINT_ID = "The Surface Sprint Begins";
 
     @Inject(method = "setCustomAnimations", at = @At("TAIL"), remap = false)
-    private void sccfe$applySurfaceSprint(FormGeoAnimatable animatable, long instanceId,
+    private void sscfe$applySurfaceSprint(FormGeoAnimatable animatable, long instanceId,
                                           AnimationState<FormGeoAnimatable> animationState, CallbackInfo ci) {
         float time = ((SurfaceSprintOverlayAccess) (Object) animatable)
-                .sccfe$surfaceSprintOverlayTime(animationState.getPartialTick());
+                .sscfe$surfaceSprintOverlayTime(animationState.getPartialTick());
         if (time >= 0.0F) {
             BedrockAnimationPlayer.applyAdditiveGeoRotation((FormGeoModel) (Object) this,
-                    SCCFE_SURFACE_SPRINT_ANIMATION, SCCFE_SURFACE_SPRINT_ID, time);
+                    SSCFE_SURFACE_SPRINT_ANIMATION, SSCFE_SURFACE_SPRINT_ID, time);
         }
     }
 
     @Inject(method = "applyAxolotlElytraTail", at = @At("TAIL"), remap = false)
-    private void sccfe$applyElytraSurfaceSprint(Player player, float partialTick, boolean inventoryPreview,
+    private void sscfe$applyElytraSurfaceSprint(Player player, float partialTick, boolean inventoryPreview,
                                                 CallbackInfo ci) {
         BedrockAnimationPlayer.applyAdditiveGeoRotation((FormGeoModel) (Object) this,
-                SCCFE_SURFACE_SPRINT_ANIMATION, SCCFE_SURFACE_SPRINT_ID, 0.75F);
+                SSCFE_SURFACE_SPRINT_ANIMATION, SSCFE_SURFACE_SPRINT_ID, 0.75F);
     }
 }

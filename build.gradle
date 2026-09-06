@@ -45,8 +45,9 @@ minecraft {
 }
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
-    flatDir {
-        dir 'lib'
+    maven {
+        name = 'ShapeShifterCurseGitHub'
+        url = uri('https://raw.githubusercontent.com/gengyoubo/shape-shifter-curse-forge/master/maven-repo/')
     }
     maven {
         name = 'GeckoLib'
@@ -59,14 +60,14 @@ repositories {
 }
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    implementation fg.deobf("blank:shape_shifter_curse:1.9.3")
+    implementation fg.deobf("net.onixary:shape_shifter_curse:1.9.3.1")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${project.minecraft_version}:${project.geckolib_version}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 mixin {
-    add sourceSets.main, 'sccfe.refmap.json'
-    config 'sccfe.mixins.json'
+    add sourceSets.main, 'sscfe.refmap.json'
+    config 'sscfe.mixins.json'
 }
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [

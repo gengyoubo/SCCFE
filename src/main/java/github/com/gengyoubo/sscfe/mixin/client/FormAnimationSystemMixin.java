@@ -1,6 +1,6 @@
 package github.com.gengyoubo.sscfe.mixin.client;
 
-import github.com.gengyoubo.sscfe.client.SccfeClientConfig;
+import github.com.gengyoubo.sscfe.client.SscfeClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.onixary.shapeShifterCurseForge.ShapeShifterCurseForge;
@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FormAnimationSystem.class)
 public abstract class FormAnimationSystemMixin {
     @Inject(method = "preferredResource", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sccfe$preferExtensionAnimation(String animationFile, ResourceLocation legacy,
+    private static void sscfe$preferExtensionAnimation(String animationFile, ResourceLocation legacy,
                                                        CallbackInfoReturnable<ResourceLocation> cir) {
-        if (!SccfeClientConfig.PREFER_NEW_ANIMATIONS.get()) {
+        if (!SscfeClientConfig.PREFER_NEW_ANIMATIONS.get()) {
             return;
         }
         ResourceLocation modern = ResourceLocation.fromNamespaceAndPath(ShapeShifterCurseForge.RESOURCE_NAMESPACE,

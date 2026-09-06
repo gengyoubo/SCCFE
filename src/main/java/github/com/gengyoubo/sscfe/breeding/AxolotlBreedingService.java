@@ -1,6 +1,6 @@
 package github.com.gengyoubo.sscfe.breeding;
 
-import github.com.gengyoubo.sscfe.Sccfe;
+import github.com.gengyoubo.sscfe.Sscfe;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /** Gives nearby adult axolotls a rare chance to start vanilla breeding for an axolotl-form player. */
-@Mod.EventBusSubscriber(modid = Sccfe.MOD_ID)
+@Mod.EventBusSubscriber(modid = Sscfe.MOD_ID)
 public final class AxolotlBreedingService {
     private static final long RETRY_INTERVAL_TICKS = 10L * 20L;
     private static final long SUCCESS_COOLDOWN_TICKS = 40L * 60L * 20L;

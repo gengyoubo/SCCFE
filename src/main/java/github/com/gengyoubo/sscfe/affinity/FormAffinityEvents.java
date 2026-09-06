@@ -1,6 +1,6 @@
 package github.com.gengyoubo.sscfe.affinity;
 
-import github.com.gengyoubo.sscfe.Sccfe;
+import github.com.gengyoubo.sscfe.Sscfe;
 import github.com.gengyoubo.sscfe.mixin.MobGoalSelectorAccessor;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +9,7 @@ import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = Sccfe.MOD_ID)
+@Mod.EventBusSubscriber(modid = Sscfe.MOD_ID)
 public final class FormAffinityEvents {
     private FormAffinityEvents() {
     }
@@ -20,7 +20,7 @@ public final class FormAffinityEvents {
                 || !FormAffinityGoal.supports(mob)) {
             return;
         }
-        ((MobGoalSelectorAccessor) mob).sccfe$getGoalSelector().addGoal(6, new FormAffinityGoal(mob));
+        ((MobGoalSelectorAccessor) mob).sscfe$getGoalSelector().addGoal(6, new FormAffinityGoal(mob));
     }
 
     @SubscribeEvent

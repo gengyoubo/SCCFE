@@ -1,7 +1,8 @@
 package github.com.gengyoubo.sscfe.mixin.client;
 
-import github.com.gengyoubo.sscfe.client.SccfeClientConfig;
+import github.com.gengyoubo.sscfe.client.SscfeClientConfig;
 import github.com.gengyoubo.sscfe.client.SurfaceSprintOverlayAccess;
+import github.com.gengyoubo.sscfe.client.SurfaceSprintOverlayTimeline;
 import net.minecraft.world.entity.player.Player;
 import net.onixary.shapeShifterCurseForge.client.render.FormGeoAnimatable;
 import net.onixary.shapeShifterCurseForge.form.FormManager;
@@ -16,17 +17,18 @@ import java.util.UUID;
 @Mixin(FormGeoAnimatable.class)
 public abstract class FormGeoAnimatableMixin implements SurfaceSprintOverlayAccess {
     @Unique
-    private final Map<UUID, OverlayTimeline> sccfe$overlayTimelines = new HashMap<>();
+    private final Map<UUID, SurfaceSprintOverlayTimeline> sscfe$overlayTimelines = new HashMap<>();
 
     @Override
-    public float sccfe$surfaceSprintOverlayTime(float partialTick) {
+    public float sscfe$surfaceSprintOverlayTime(float partialTick) {
         FormGeoAnimatable self = (FormGeoAnimatable) (Object) this;
         Player player = self.getPlayer();
-        if (player == null || self.isInventoryPreview() || !SccfeClientConfig.PREFER_NEW_ANIMATIONS.get()) {
+        if (player == null || self.isInventoryPreview() || !SscfeClientConfig.PREFER_NEW_ANIMATIONS.get()) {
             return -1.0F;
         }
 
-        OverlayTimeline overlay = sccfe$overlayTimelines.computeIfAbsent(player.getUUID(), ignored -> new OverlayTimeline());
+        SurfaceSprintOverlayTimeline overlay = sscfe$overlayTimelines.computeIfAbsent(
+                player.getUUID(), ignored -> new SurfaceSprintOverlayTimeline());
         boolean crawling = "axolotl_3".equals(FormManager.current(player).id().getPath())
                 && (player.isShiftKeyDown() || CrawlingScaleService.isForcedCrawling(player))
                 && !player.isInWater() && !player.isFallFlying();
@@ -43,11 +45,5 @@ public abstract class FormGeoAnimatableMixin implements SurfaceSprintOverlayAcce
             overlay.startedAt = now;
         }
         return (float) ((now - overlay.startedAt) / 20.0D);
-    }
-
-    @Unique
-    private static final class OverlayTimeline {
-        private boolean active;
-        private double startedAt;
     }
 }
