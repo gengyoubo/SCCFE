@@ -20,7 +20,9 @@ public final class FormAffinityEvents {
                 || !FormAffinityGoal.supports(mob)) {
             return;
         }
-        ((MobGoalSelectorAccessor) mob).sscfe$getGoalSelector().addGoal(6, new FormAffinityGoal(mob));
+        // Following is deliberately low priority so vanilla attack, hurt-reaction,
+        // temptation and other species-specific goals can always take control.
+        ((MobGoalSelectorAccessor) mob).sscfe$getGoalSelector().addGoal(9, new FormAffinityGoal(mob));
     }
 
     @SubscribeEvent

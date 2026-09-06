@@ -2,6 +2,7 @@ package github.com.gengyoubo.sscfe.affinity;
 
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.Cat;
 import net.minecraft.world.entity.animal.Fox;
@@ -48,7 +49,8 @@ public final class FormAffinityGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return isValidTarget(target)
+        return !hasCombatTarget()
+                && isValidTarget(target)
                 && mob.distanceToSqr(target) <= MAX_DISTANCE * MAX_DISTANCE
                 && !atFollowPoint(target);
     }
@@ -80,7 +82,19 @@ public final class FormAffinityGoal extends Goal {
     }
 
     private boolean canStart() {
-        return mob.isAlive() && !mob.isNoAi() && !mob.isPassenger() && mob.getTarget() == null;
+        return mob.isAlive() && !mob.isNoAi() && !mob.isPassenger()
+                && mob.getTarget() == null && !hasCombatTarget();
+    }
+
+    private boolean hasCombatTarget() {
+        if (mob.getTarget() != null && mob.getTarget().isAlive()) {
+            return true;
+        }
+        if (mob.getLastHurtByMob() != null && mob.getLastHurtByMob().isAlive()) {
+            return true;
+        }
+        return mob instanceof Axolotl axolotl
+                && axolotl.getBrain().hasMemoryValue(MemoryModuleType.ATTACK_TARGET);
     }
 
     private boolean isValidTarget(Player player) {

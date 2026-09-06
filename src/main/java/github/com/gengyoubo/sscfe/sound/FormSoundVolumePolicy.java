@@ -3,7 +3,7 @@ package github.com.gengyoubo.sscfe.sound;
 /** Central volume policy for data-driven form sounds. */
 public final class FormSoundVolumePolicy {
     private static final float NORMAL_POWER_MULTIPLIER = 1.5F;
-    private static final float PLAYER_CALL_MULTIPLIER = 4.0F;
+    private static final float PLAYER_CALL_MULTIPLIER = 10.0F;
     private static final ThreadLocal<Boolean> PLAYER_CALL = ThreadLocal.withInitial(() -> false);
 
     private FormSoundVolumePolicy() {
