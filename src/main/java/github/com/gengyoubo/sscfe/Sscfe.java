@@ -1,8 +1,7 @@
 package github.com.gengyoubo.sscfe;
 
 import github.com.gengyoubo.sscfe.client.SscfeClientConfig;
-import github.com.gengyoubo.sscfe.form.Catgirl0Form;
-import net.onixary.shapeShifterCurseForge.api.registry.SscJavaRegistries;
+import github.com.gengyoubo.sscfe.init.ModForms;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.common.Mod;
@@ -18,6 +17,6 @@ public final class Sscfe {
     }
 
     private static void registerForms() {
-        SscJavaRegistries.registerForm(new Catgirl0Form());
+        ModForms.init();
     }
 }

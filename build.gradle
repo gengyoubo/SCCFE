@@ -66,7 +66,7 @@ repositories {
 }
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    implementation fg.deobf("net.onixary:shape_shifter_curse:1.9.3.7")
+    implementation fg.deobf("net.onixary:shape_shifter_curse:1.9.3.11")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${project.minecraft_version}:${project.geckolib_version}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
@@ -76,6 +76,12 @@ mixin {
     config 'sscfe.mixins.json'
 }
 tasks.named('processResources', ProcessResources).configure {
+    // MixinGradle generates the refmap under compileJava's temporary directory. IDE/dev
+    // launches use build/resources/main directly, so make the refmap available there too.
+    dependsOn tasks.named('compileJava')
+    from(layout.buildDirectory.dir('tmp/compileJava')) {
+        include 'sscfe.refmap.json'
+    }
     var replaceProperties = [
             minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
             forge_version: forge_version, forge_version_range: forge_version_range,
@@ -89,8 +95,25 @@ tasks.named('processResources', ProcessResources).configure {
     }
 }
 
+// ForgeGradle exposes the add-on source as a dev mod, but does not always make external
+// mod dependencies visible to FML's mod-file scan when runClient is launched from this
+// standalone project. Stage only the two actual mod dependencies into the dev game directory.
+tasks.register('stageDevModDependencies', Copy) {
+    from configurations.runtimeClasspath.filter { file ->
+        file.name.contains('shape_shifter_curse') || file.name.startsWith('geckolib-forge-')
+    }
+    into file('run/mods')
+}
+
+tasks.configureEach {
+    if (name == 'runClient') {
+        dependsOn 'classes', 'processResources', 'stageDevModDependencies'
+    }
+}
+
 // Example for how to get properties into the manifest for reading at runtime.
 tasks.named('jar', Jar).configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes([
                 'Specification-Title'     : mod_id,
