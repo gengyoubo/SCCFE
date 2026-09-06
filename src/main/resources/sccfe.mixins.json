@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "github.com.gengyoubo.sscfe.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "sccfe.refmap.json",
+  "mixins": [
+    "MobGoalSelectorAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
