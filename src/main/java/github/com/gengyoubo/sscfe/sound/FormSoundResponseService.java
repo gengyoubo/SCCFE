@@ -26,8 +26,8 @@ import java.util.UUID;
 public final class FormSoundResponseService {
     private static final double RESPONSE_RADIUS = 24.0D;
     private static final int RESPONSE_COOLDOWN_TICKS = 10;
-    private static final int MIN_RESPONSE_DELAY_TICKS = 2;
-    private static final int MAX_RESPONSE_DELAY_TICKS = 6;
+    private static final int MIN_RESPONSE_DELAY_TICKS = 10;
+    private static final int MAX_RESPONSE_DELAY_TICKS = 60;
     private static final int MIN_LOOK_DURATION_TICKS = 20;
     private static final int MAX_LOOK_DURATION_TICKS = 40;
     private static final Map<UUID, Long> RESPONSE_COOLDOWNS = new HashMap<>();
@@ -38,7 +38,7 @@ public final class FormSoundResponseService {
     }
 
     public static void respond(ServerPlayer player) {
-        Response response = responseFor(FormManager.current(player).id().getPath(), player.isShiftKeyDown());
+        Response response = responseFor(FormManager.current(player).groupId().getPath(), player.isShiftKeyDown());
         if (response == null) {
             return;
         }
@@ -98,26 +98,26 @@ public final class FormSoundResponseService {
         }
     }
 
-    private static Response responseFor(String formId, boolean sneaking) {
-        if (formId.startsWith("form_axolotl_")) {
+    private static Response responseFor(String formGroup, boolean sneaking) {
+        if ("axolotl_form".equals(formGroup)) {
             return response(EntityType.AXOLOTL, "entity.axolotl.idle_air");
         }
-        if (formId.startsWith("form_spider_")) {
+        if ("spider_form".equals(formGroup)) {
             return response(EntityType.SPIDER, "entity.spider.ambient");
         }
-        if (formId.startsWith("form_bat_")) {
+        if ("bat_form".equals(formGroup)) {
             return response(EntityType.BAT, "entity.bat.ambient");
         }
-        if (formId.startsWith("form_familiar_fox_") || formId.startsWith("form_snow_fox_")) {
+        if ("familiar_fox_form".equals(formGroup) || "snow_fox_form".equals(formGroup)) {
             return response(EntityType.FOX, "entity.fox.ambient");
         }
-        if (formId.startsWith("form_feral_cat_sp") || formId.startsWith("form_ocelot_")) {
+        if ("feral_cat_form".equals(formGroup) || "ocelot_form".equals(formGroup)) {
             return response(EntityType.OCELOT, sneaking ? "entity.cat.hiss" : "entity.cat.ambient");
         }
-        if (formId.startsWith("form_anubis_wolf_")) {
+        if ("anubis_wolf_form".equals(formGroup)) {
             return response(EntityType.WOLF, sneaking ? "entity.wolf.growl" : "entity.wolf.ambient");
         }
-        if ("form_allay_sp".equals(formId)) {
+        if ("allay_form".equals(formGroup)) {
             return response(EntityType.ALLAY, "entity.allay.ambient_without_item");
         }
         return null;

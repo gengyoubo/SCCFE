@@ -44,6 +44,6 @@ public final class AxolotlDefenseEvents {
     }
 
     private static boolean isAxolotlForm(Player player) {
-        return FormManager.current(player).id().getPath().startsWith("form_axolotl_");
+        return "axolotl_form".equals(FormManager.current(player).groupId().getPath());
     }
 }
