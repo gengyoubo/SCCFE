@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 /**
  * SCCFE's central deferred Form registration branch.
  *
- * <p>Each Form owns its declaration through its own {@code init()} method. This class gathers
+ * <p>Each Form family owns its declarations through its own {@code init()} method. This class gathers
  * those declarations and commits the shared {@code sscfe} registrar from the mod entry point.</p>
  */
 public final class ModForms {
@@ -27,8 +27,8 @@ public final class ModForms {
     }
 
     /**
-     * Declares every SCCFE Form, then commits the shared deferred registry exactly once.
-     * Add future Form classes to this list; individual Form classes own their declarations.
+     * Declares every SCCFE Form family, then commits the shared deferred registry exactly once.
+     * Add future families here; each family entry point registers its main stages.
      */
     public static void init() {
         CatgirlForm.init();

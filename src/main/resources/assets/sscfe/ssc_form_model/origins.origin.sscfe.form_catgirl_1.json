@@ -1,0 +1,28 @@
+{
+  "load_priority": 0,
+  "name": "sscfe.form_catgirl_1.model_name",
+  "layer": "origins:origin",
+  "form": "sscfe:form_catgirl_1",
+  "wide_only": false,
+  "model": "sscfe:geo/form/form_catgirl_1.geo.json",
+  "texture": "sscfe:textures/form/form_catgirl_1/form_catgirl_1.png",
+  "hidden": [],
+  "animation_system": "shape-shifter-curse:default",
+  "animation_system_config": {
+    "tail": {
+      "chain": {
+        "tail": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    }
+  }
+}
