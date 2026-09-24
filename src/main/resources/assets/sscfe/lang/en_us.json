@@ -1,0 +1,22 @@
+{
+  "key.sscfe.form_powers": "View Form Abilities",
+  "key.categories.sscfe": "SCCFE",
+  "screen.sscfe.form_powers.title": "Form Abilities",
+  "screen.sscfe.form_powers.active": "Active Abilities",
+  "screen.sscfe.form_powers.passive": "Passive Abilities",
+  "screen.sscfe.form_powers.empty": "No abilities",
+  "screen.sscfe.form_powers.no_description": "No description available",
+  "screen.sscfe.form_powers.close": "Press the key or Esc to close",
+  "power.shape-shifter-curse.form_axolotl_3_sprinting_sneaking_water_explode.name": "Water Burst",
+  "power.shape-shifter-curse.form_axolotl_3_sprinting_sneaking_water_explode.description": "While sprint-jumping on land, charge forward, damaging nearby creatures and consuming some air. Cooldown: 3 seconds.",
+  "power.shape-shifter-curse.form_axolotl_2_water_spurt.name": "Water Dash",
+  "power.shape-shifter-curse.form_axolotl_2_water_spurt.description": "Press Sprint while in water to dash forward. Cooldown: 5 seconds.",
+  "power.shape-shifter-curse.jump_out_water.name": "Water Surface Leap",
+  "power.shape-shifter-curse.jump_out_water.description": "Press Jump near the water's surface to leap upward. Cooldown: 0.5 seconds.",
+  "power.shape-shifter-curse.form_axolotl_3_no_render_arm.name": "Hide Arms While Sneaking",
+  "power.shape-shifter-curse.form_axolotl_3_no_render_arm.description": "Your arms are hidden while sneaking or swimming.",
+  "power.shape-shifter-curse.form_axolotl_3_water_breathing.name": "Water Breathing",
+  "power.shape-shifter-curse.form_axolotl_3_water_breathing.description": "Greatly increases how long you can breathe underwater.",
+  "power.shape-shifter-curse.form_axolotl_3_slipperiness.name": "Sprint Glide",
+  "power.shape-shifter-curse.form_axolotl_3_slipperiness.description": "Changes movement friction while sprint-jumping on land, letting you glide farther."
+}
