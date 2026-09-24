@@ -8,9 +8,9 @@
   "screen.sscfe.form_powers.no_description": "No description available",
   "screen.sscfe.form_powers.close": "Press the key or Esc to close",
   "power.shape-shifter-curse.form_axolotl_3_sprinting_sneaking_water_explode.name": "Water Burst",
-  "power.shape-shifter-curse.form_axolotl_3_sprinting_sneaking_water_explode.description": "While sprint-jumping on land, charge forward, damaging nearby creatures and consuming some air. Cooldown: 3 seconds.",
+  "power.shape-shifter-curse.form_axolotl_3_sprinting_sneaking_water_explode.description": "While standing on a block and sprinting, press Active Skill 1 to dash forward, damage nearby creatures, and consume 20 air. Cooldown: 3 seconds.",
   "power.shape-shifter-curse.form_axolotl_2_water_spurt.name": "Water Dash",
-  "power.shape-shifter-curse.form_axolotl_2_water_spurt.description": "Press Sprint while in water to dash forward. Cooldown: 5 seconds.",
+  "power.shape-shifter-curse.form_axolotl_2_water_spurt.description": "When the water height is at least one block, a transition from not sprinting to sprinting triggers a forward dash. Cooldown: 5 seconds.",
   "power.shape-shifter-curse.jump_out_water.name": "Water Surface Leap",
   "power.shape-shifter-curse.jump_out_water.description": "Press Jump near the water's surface to leap upward. Cooldown: 0.5 seconds.",
   "power.shape-shifter-curse.form_axolotl_3_no_render_arm.name": "Hide Arms While Sneaking",
@@ -18,5 +18,5 @@
   "power.shape-shifter-curse.form_axolotl_3_water_breathing.name": "Water Breathing",
   "power.shape-shifter-curse.form_axolotl_3_water_breathing.description": "Greatly increases how long you can breathe underwater.",
   "power.shape-shifter-curse.form_axolotl_3_slipperiness.name": "Sprint Glide",
-  "power.shape-shifter-curse.form_axolotl_3_slipperiness.description": "Changes movement friction while sprint-jumping on land, letting you glide farther."
+  "power.shape-shifter-curse.form_axolotl_3_slipperiness.description": "While sprinting on land, outside water and off ice, with air remaining, sets the ground slipperiness modifier to 0.35. Jumping is not required."
 }
