@@ -45,6 +45,9 @@ minecraft {
 }
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
+    flatDir {
+        dirs 'lib'
+    }
     // Use the sibling core project's published Maven repository while developing locally.
     // The GitHub repository below remains the normal source for clean checkouts.
     maven {
@@ -66,7 +69,7 @@ repositories {
 }
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    implementation fg.deobf("net.onixary:shape_shifter_curse:1.9.3.11")
+    implementation fg.deobf('local.runtime:shape_shifter_curse:1.9.3.14')
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${project.minecraft_version}:${project.geckolib_version}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
