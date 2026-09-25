@@ -13,6 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.onixary.shapeShifterCurseForge.form.FormDefinition;
 import net.onixary.shapeShifterCurseForge.form.FormManager;
+import net.onixary.shapeShifterCurseForge.api.SscPowerApi;
 import net.onixary.shapeShifterCurseForge.power.FormPowerDefinition;
 import net.onixary.shapeShifterCurseForge.power.FormPowerRegistry;
 
@@ -23,6 +24,7 @@ public final class FormPowerScreen extends Screen {
     private static final int PANEL_WIDTH = 360;
     private static final int PANEL_HEIGHT = 220;
     private static final int ROW_HEIGHT = 64;
+    private static final String OXYGEN_HEALTH_PREFIX = "form_axolotl_2_new_oxygen_health_";
 
     private final Player player;
     private final List<PowerEntry> activePowers = new ArrayList<>();
@@ -43,7 +45,19 @@ public final class FormPowerScreen extends Screen {
         FormDefinition form = FormManager.current(player);
         formName = formName(form);
 
-        for (ResourceLocation id : FormPowerRegistry.idsFor(player)) {
+        boolean oxygenHealthAdded = false;
+        for (ResourceLocation id : SscPowerApi.powersFor(form.id())) {
+            if (id.getNamespace().equals("shape-shifter-curse") && id.getPath().startsWith(OXYGEN_HEALTH_PREFIX)) {
+                if (!oxygenHealthAdded) {
+                    passivePowers.add(new PowerEntry(
+                            Component.translatable("screen.sscfe.form_powers.oxygen_health.name"),
+                            Component.translatable("screen.sscfe.form_powers.oxygen_health.description"),
+                            ItemStack.EMPTY,
+                            124));
+                    oxygenHealthAdded = true;
+                }
+                continue;
+            }
             FormPowerDefinition definition = FormPowerRegistry.get(id);
             if (definition == null) {
                 continue;
@@ -71,22 +85,24 @@ public final class FormPowerScreen extends Screen {
 
         int listTop = top + 48;
         int listBottom = top + PANEL_HEIGHT - 20;
-        int visibleRows = Math.max(1, (listBottom - listTop) / ROW_HEIGHT);
-        drawEntries(graphics, activePowers, left + 12, listTop, listBottom, visibleRows, 0xFFFFD37A);
-        drawEntries(graphics, passivePowers, left + 192, listTop, listBottom, visibleRows, 0xFF9AD7C5);
+        drawEntries(graphics, activePowers, left + 12, listTop, listBottom, 0xFFFFD37A);
+        drawEntries(graphics, passivePowers, left + 192, listTop, listBottom, 0xFF9AD7C5);
         graphics.drawCenteredString(font, Component.translatable("screen.sscfe.form_powers.close"), width / 2, top + PANEL_HEIGHT - 13, 0xFFAAAAAA);
         super.render(graphics, mouseX, mouseY, partialTick);
     }
 
-    private void drawEntries(GuiGraphics graphics, List<PowerEntry> entries, int x, int top, int bottom, int visibleRows, int color) {
+    private void drawEntries(GuiGraphics graphics, List<PowerEntry> entries, int x, int top, int bottom, int color) {
         if (entries.isEmpty()) {
             graphics.drawWordWrap(font, Component.translatable("screen.sscfe.form_powers.empty"), x, top + 3, 150, 0xFFAAAAAA);
             return;
         }
-        int end = Math.min(entries.size(), scrollOffset + visibleRows);
-        for (int i = scrollOffset; i < end; i++) {
+        int y = top;
+        int end = scrollOffset;
+        for (int i = scrollOffset; i < entries.size() && y < bottom; i++) {
             PowerEntry entry = entries.get(i);
-            int y = top + (i - scrollOffset) * ROW_HEIGHT;
+            end = i + 1;
+            int rowHeight = entry.rowHeight;
+            int availableHeight = Math.min(rowHeight, bottom - y);
             if (entry.icon != ItemStack.EMPTY) {
                 graphics.renderItem(entry.icon, x, y);
             }
@@ -100,16 +116,17 @@ public final class FormPowerScreen extends Screen {
             }
             int descriptionY = nameY + 2;
             List<net.minecraft.util.FormattedCharSequence> descriptionLines = font.split(entry.description, textWidth);
-            int maxDescriptionLines = Math.max(1, (ROW_HEIGHT - (descriptionY - y) - 3) / font.lineHeight);
+            int maxDescriptionLines = Math.max(0, (availableHeight - (descriptionY - y) - 3) / font.lineHeight);
             for (int lineIndex = 0; lineIndex < Math.min(descriptionLines.size(), maxDescriptionLines); lineIndex++) {
                 graphics.drawString(font, descriptionLines.get(lineIndex), textX, descriptionY, 0xFFCCCCCC, false);
                 descriptionY += font.lineHeight;
             }
             if (i + 1 < end) {
-                graphics.fill(x, Math.min(y + ROW_HEIGHT - 2, bottom), x + 150, Math.min(y + ROW_HEIGHT - 1, bottom), 0x33333333);
+                graphics.fill(x, Math.min(y + rowHeight - 2, bottom), x + 150, Math.min(y + rowHeight - 1, bottom), 0x33333333);
             }
+            y += rowHeight;
         }
-        if (entries.size() > visibleRows) {
+        if (entries.size() > end || scrollOffset > 0) {
             graphics.drawString(font, (scrollOffset + 1) + "/" + entries.size(), x + 112, bottom + 2, 0xFF888888, false);
         }
     }
@@ -123,7 +140,7 @@ public final class FormPowerScreen extends Screen {
         Component description = I18n.exists(baseKey + ".description")
                 ? Component.translatable(baseKey + ".description")
                 : Component.translatable("screen.sscfe.form_powers.no_description");
-        return new PowerEntry(name, description, icon(definition.data()));
+        return new PowerEntry(name, description, icon(definition.data()), ROW_HEIGHT);
     }
 
     private static ItemStack icon(JsonObject data) {
@@ -170,8 +187,7 @@ public final class FormPowerScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        int visibleRows = Math.max(1, (PANEL_HEIGHT - 68) / ROW_HEIGHT);
-        int maxOffset = Math.max(0, Math.max(activePowers.size(), passivePowers.size()) - visibleRows);
+        int maxOffset = Math.max(0, Math.max(activePowers.size(), passivePowers.size()) - 1);
         scrollOffset = Mth.clamp(scrollOffset - (int) Math.signum(delta), 0, maxOffset);
         return true;
     }
@@ -191,6 +207,6 @@ public final class FormPowerScreen extends Screen {
         return false;
     }
 
-    private record PowerEntry(Component name, Component description, ItemStack icon) {
+    private record PowerEntry(Component name, Component description, ItemStack icon, int rowHeight) {
     }
 }

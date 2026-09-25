@@ -69,7 +69,7 @@ repositories {
 }
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    implementation fg.deobf('local.runtime:shape_shifter_curse:1.9.3.14')
+    implementation fg.deobf("net.onixary:shape_shifter_curse:${project.shape_shifter_curse_version}")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${project.minecraft_version}:${project.geckolib_version}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }

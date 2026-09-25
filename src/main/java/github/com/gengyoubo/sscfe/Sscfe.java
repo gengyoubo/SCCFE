@@ -12,6 +12,7 @@ public final class Sscfe {
 
     @SuppressWarnings("removal")
     public Sscfe() {
+        SscfeGameRules.initialize();
         registerForms();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, SscfeClientConfig.SPEC, "sscfe-client.toml");
     }
